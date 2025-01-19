@@ -1,16 +1,12 @@
 asm_files := $(wildcard *.s)
 
-test1: test.o
-	ld -o test $<
-	./test
-
-
+unistd: 
+	cat /usr/include/asm/unistd_64.h | tr '#' '%'  > unistd.S
 
 %.o : %.s
 	nasm -felf64 $< -o $@
 
-bin: badcat.s cli_test.s new_cat.s test.s
-	nams -f elf64 test.s
+bin: badcat.s cli_test.s new_cat.s unistd
 	nasm -f elf64 badcat.s
 	ld -o badcat badcat.o
 	nasm -felf64 cli_test.s
